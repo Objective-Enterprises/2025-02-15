@@ -11,12 +11,7 @@ export default function Results (props) {
     if (filter === '') {
       return true
     }
-    if (filter === 'yes') {
-      return result.correct
-    }
-    if (filter === 'no') {
-      return !result.correct
-    }
+    return result.answer === filter
   })
 
   const rows = filtered.map((example, index) => {
@@ -28,6 +23,20 @@ export default function Results (props) {
     )
   })
 
+  const answers = props.resultList.map(result => {
+    return result.answer
+  })
+  // [1, 2, 5, 1]
+  const answerSet = new Set(answers)
+  // Set { 1, 2, 5 }
+  const uniqueAnswers = [...answerSet]
+  // [1, 2, 5]
+  const options = uniqueAnswers.map((answer, index) => {
+    return (
+      <option value={answer} key={index}>{answer}</option>
+    )
+  })
+
   return (
     <>
       Filter: 
@@ -36,10 +45,9 @@ export default function Results (props) {
         onChange={handleChange}
       >
         <option value=''>All</option>
-        <option value='yes'>Correct</option>
-        <option value='no'>Incorrect</option>
+        {options}
       </select>
-      <table>
+      <table style={{ color: 'blue', marginTop: '50px' }}>
         <thead>
           <tr>
             <th>Answer</th>
