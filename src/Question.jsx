@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export default function Question () {
+export default function Question (props) {
   const [answer, setAnswer] = useState('')
   function handleChange (event) {
     setAnswer(event.target.value)
@@ -8,6 +8,12 @@ export default function Question () {
   function handleSubmit (event) {
     event.preventDefault()
     console.log('answer', answer)
+    const newResult = {
+      answer,
+      correct: Number(answer) === 2
+    }
+    const newResultList = [...props.resultList, newResult]
+    props.setResultList(newResultList)
   }
   return (
     <form onSubmit={handleSubmit}>
